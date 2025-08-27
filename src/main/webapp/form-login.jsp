@@ -15,7 +15,7 @@
     </style>
 </head>
 <body>
-    <form method="post" action="/login">
+    <form method="get" action="/server-time/login">
         <div class="login">
             <h2>Login</h2>
             <input type="text" name="username" placeholder="Username"/>
