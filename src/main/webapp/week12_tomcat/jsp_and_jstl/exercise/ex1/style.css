@@ -1,0 +1,23 @@
+table {
+    border-collapse: collapse;
+    width: 70%;
+    margin: auto;
+    box-shadow: 0 0 10px lightblue;
+}
+th, td {
+    border: 1px solid #ccc;
+    padding: 10px;
+    text-align: left;
+}
+th {
+    background: #f2f2f2;
+    font-size: 18px;
+}
+td img {
+    width: 80px;
+    height: 80px;
+    object-fit: cover;
+}
+h2 {
+    text-align: center;
+}
