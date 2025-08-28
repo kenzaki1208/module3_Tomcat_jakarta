@@ -3,6 +3,11 @@
 <html>
 <head>
     <title>Create a new customer</title>
+    <style>
+        .message{
+            color:green;
+        }
+    </style>
 </head>
 <body>
     <h2>Create a new customer</h2>
