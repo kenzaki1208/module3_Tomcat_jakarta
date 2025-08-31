@@ -70,6 +70,8 @@ public class UserServlet extends HttpServlet {
                 case "create": showNewForm(request, response); break;
                 case "edit": showEditForm(request, response); break;
                 case "delete": deleteUser(request, response); break;
+                case "search": searchUser(request, response); break;
+                case "sort": sortUserByName(request, response); break;
                 default: listUser(request, response); break;
             }
         } catch (SQLException ex) {
@@ -111,5 +113,20 @@ public class UserServlet extends HttpServlet {
         dispatcher.forward(request, response);
     }
 
+    private void searchUser(HttpServletRequest request, HttpServletResponse response)
+            throws SQLException, IOException, ServletException {
+        String country = request.getParameter("country");
+        List<User> listUser = userDAO.searchUserByCountry(country);
+        request.setAttribute("listUser", listUser);
+        RequestDispatcher dispatcher = request.getRequestDispatcher("/week12_tomcat/jdbc_and_crud/view/list-user.jsp");
+        dispatcher.forward(request, response);
+    }
 
+    private void sortUserByName(HttpServletRequest request, HttpServletResponse response)
+            throws SQLException, IOException, ServletException {
+        List<User> listUser = userDAO.sortUsersByName();
+        request.setAttribute("listUser", listUser);
+        RequestDispatcher dispatcher = request.getRequestDispatcher("/week12_tomcat/jdbc_and_crud/view/list-user.jsp");
+        dispatcher.forward(request, response);
+    }
 }

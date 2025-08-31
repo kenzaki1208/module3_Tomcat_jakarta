@@ -11,6 +11,19 @@
         <h1>User Management</h1>
         <h2><a href="${pageContext.request.contextPath}/users?action=create">Add New User</a></h2>
     </center>
+
+    <form style="justify-self: center" action="${pageContext.request.contextPath}/users" method="get">
+        <input type="hidden" name="action" value="search"/>
+        <input type="text" name="country" placeholder="Enter country"/>
+        <input type="submit" value="Search"/>
+    </form>
+
+    <h3 style="text-align: center">
+        <a href="${pageContext.request.contextPath}/users?action=sort">
+            Sort Users by Name
+        </a>
+    </h3>
+
     <div align="center">
         <table border="1" cellpadding="5">
             <caption><h2>List of Users</h2></caption>

@@ -16,6 +16,8 @@ public class UserDAO implements IUserDAO {
     private static final String SELECT_ALL_USERS = "select * from user";
     private static final String DELETE_USER_SQL = "delete from user where id = ?";
     private static final String UPDATE_USER_SQL = "update user set name = ?, email = ?, country = ? where id = ?";
+    private static final String SEARCH_USER_BY_COUNTRY = "SELECT * FROM user WHERE country LIKE ?";
+    private static final String SORT_USERS_BY_NAME = "SELECT * FROM user ORDER BY name ASC";
 
     public UserDAO() {}
 
@@ -119,5 +121,42 @@ public class UserDAO implements IUserDAO {
                 }
             }
         }
+    }
+
+    public List<User> searchUserByCountry(String country) {
+        List<User> users = new ArrayList<>();
+        try (Connection connection = getConnection();
+             PreparedStatement preparedStatement = connection.prepareStatement(SEARCH_USER_BY_COUNTRY)) {
+            preparedStatement.setString(1, "%" + country + "%");
+            ResultSet rs = preparedStatement.executeQuery();
+            while (rs.next()) {
+                int id = rs.getInt("id");
+                String name = rs.getString("name");
+                String email = rs.getString("email");
+                String ctry = rs.getString("country");
+                users.add(new User(id, name, email, ctry));
+            }
+        } catch (SQLException e) {
+            printSQLException(e);
+        }
+        return users;
+    }
+
+    public List<User> sortUsersByName() {
+        List<User> users = new ArrayList<>();
+        try (Connection connection = getConnection();
+             PreparedStatement preparedStatement = connection.prepareStatement(SORT_USERS_BY_NAME)) {
+            ResultSet rs = preparedStatement.executeQuery();
+            while (rs.next()) {
+                int id = rs.getInt("id");
+                String name = rs.getString("name");
+                String email = rs.getString("email");
+                String country = rs.getString("country");
+                users.add(new User(id, name, email, country));
+            }
+        } catch (SQLException e) {
+            printSQLException(e);
+        }
+        return users;
     }
 }
