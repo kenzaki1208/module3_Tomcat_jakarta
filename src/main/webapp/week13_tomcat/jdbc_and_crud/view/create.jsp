@@ -8,7 +8,7 @@
 <body>
     <center>
         <h1>User Management</h1>
-        <h2><a href="users?action=user">List All Users</a></h2>
+        <h2><a href="users-week13?action=user">List All Users</a></h2>
     </center>
     <div align="center">
         <form method="post">
@@ -25,7 +25,16 @@
             </tr>
             <tr>
                 <th>Country: </th>
-                <td><input type="text" name="country" id="country" size="45" /></td>
+                <td><input type="text" name="country" id="country" size="15" /></td>
+            </tr>
+            <tr>
+                <td>Permission: </td>
+                <td>
+                    <input type="checkbox" name="add" size="15"/> add |
+                    <input type="checkbox" name="edit" size="15"/> edit |
+                    <input type="checkbox" name="delete" size="15"/> delete |
+                    <input type="checkbox" name="view" size="15"/> view
+                </td>
             </tr>
             <tr>
                 <td colspan="2" align="center">

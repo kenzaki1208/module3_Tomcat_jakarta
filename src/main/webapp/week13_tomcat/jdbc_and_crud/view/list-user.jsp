@@ -9,7 +9,7 @@
 <body>
     <center>
         <h1>User Management</h1>
-        <h2><a href="${pageContext.request.contextPath}/users?action=create">Add New User</a></h2>
+        <h2><a href="${pageContext.request.contextPath}/users-week13?action=create">Add New User</a></h2>
     </center>
 
     <form style="justify-self: center" action="${pageContext.request.contextPath}/users" method="get">
