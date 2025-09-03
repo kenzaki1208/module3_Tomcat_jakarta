@@ -85,6 +85,7 @@ public class UserServletWeek13 extends HttpServlet {
                 case "delete": deleteUser(request, response); break;
                 case "search": searchUser(request, response); break;
                 case "sort": sortUserByName(request, response); break;
+                case  "test-without-tran": testWithoutTran(request, response); break;
                 default: listUser(request, response); break;
             }
         } catch (SQLException ex) {
@@ -142,5 +143,9 @@ public class UserServletWeek13 extends HttpServlet {
         request.setAttribute("listUser", listUser);
         RequestDispatcher dispatcher = request.getRequestDispatcher("/week13_tomcat/jdbc_and_crud/view/list-user.jsp");
         dispatcher.forward(request, response);
+    }
+
+    private void testWithoutTran(HttpServletRequest request, HttpServletResponse response) {
+        userDAO.insertUpdateWithoutTransaction();
     }
 }
