@@ -14,11 +14,14 @@ public interface IUserDAO {
     User getUserById(int id);
     void insertUserStore(User user) throws SQLException;
     void addUserTransaction(User user, List<Integer> permission);
-    void insertUpdateWithoutTransaction_p1();
-    void insertUpdateWithoutTransaction_p2();
+    void insertUpdateWithoutTransaction();
+    void insertUpdateWithTransaction();
 
-    //Bài thực hành 1: Gọi MySql Stored Procedures từ JDBC
+    //Bài tập thực hành 1: Gọi MySql Stored Procedures từ JDBC
     List<User> getAllUsersSP();
     boolean updateUserSP(User user) throws SQLException;
     boolean deleteUserSP(int id) throws SQLException;
+
+    //Bài tập thực hành 2:
+    void addUserTransactionExercise(User user, List<Integer> permission) throws SQLException;
 }

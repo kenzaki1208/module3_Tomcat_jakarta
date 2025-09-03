@@ -159,10 +159,10 @@ public class UserServletWeek13 extends HttpServlet {
     }
 
     private void testWithoutTran(HttpServletRequest request, HttpServletResponse response) {
-        userDAO.insertUpdateWithoutTransaction_p1();
+        userDAO.insertUpdateWithoutTransaction();
     }
 
     private void testWithoutTran_p2(HttpServletRequest request, HttpServletResponse response) {
-        userDAO.insertUpdateWithoutTransaction_p2();
+        userDAO.insertUpdateWithTransaction();
     }
 }

@@ -33,7 +33,7 @@ public class UserDAO implements IUserDAO {
             + ")";
     private static final String SQL_TABLE_DROP = "DROP TABLE IF EXISTS EMPLOYEE";
 
-    //Bài thực hành 1: Gọi MySql Stored Procedures từ JDBC
+    //Bài tập thực hành 1: Gọi MySql Stored Procedures từ JDBC
     private static final String GET_ALL_USERS_SP = "{CALL get_all_users()}";
     private static final String UPDATE_USER_SP = "{CALL update_user(?,?,?,?)}";
     private static final String DELETE_USER_SP = "{CALL delete_user(?)}";
@@ -279,7 +279,7 @@ public class UserDAO implements IUserDAO {
     }
 
     @Override
-    public void insertUpdateWithoutTransaction_p1() {
+    public void insertUpdateWithoutTransaction() {
         try (Connection conn = getConnection();
              Statement statement = conn.createStatement();
              PreparedStatement psInsert = conn.prepareStatement(SQL_INSERT);
@@ -307,7 +307,7 @@ public class UserDAO implements IUserDAO {
     }
 
     @Override
-    public void insertUpdateWithoutTransaction_p2() {
+    public void insertUpdateWithTransaction() {
         try (
                 Connection conn = getConnection();
                 Statement statement = conn.createStatement();
@@ -345,7 +345,7 @@ public class UserDAO implements IUserDAO {
         }
     }
 
-    //Bài thực hành 1: Gọi MySql Stored Procedures từ JDBC
+    //Bài tập thực hành 1: Gọi MySql Stored Procedures từ JDBC
     @Override
     public List<User> getAllUsersSP() {
         List<User> users = new ArrayList<>();
@@ -394,5 +394,51 @@ public class UserDAO implements IUserDAO {
             rowDeleted = cs.executeUpdate() > 0;
         }
         return rowDeleted;
+    }
+    
+    //Bài tập thực hành 2:
+    @Override
+    public void addUserTransactionExercise(User user, List<Integer> permission) throws SQLException {
+        Connection conn = null;
+        PreparedStatement psUser = null;
+        PreparedStatement psPermission = null;
+
+        try {
+            conn = getConnection();
+            conn.setAutoCommit(false); 
+
+            String insertUserSQL = "INSERT INTO users (name, email, country) VALUES (?, ?, ?)";
+            psUser = conn.prepareStatement(insertUserSQL, Statement.RETURN_GENERATED_KEYS);
+            psUser.setString(1, user.getUsername());
+            psUser.setString(2, user.getEmail());
+            psUser.setString(3, user.getCountry());
+            psUser.executeUpdate();
+
+            // Lấy id vừa insert
+            ResultSet rs = psUser.getGeneratedKeys();
+            int userId = 0;
+            if (rs.next()) {
+                userId = rs.getInt(1);
+            }
+
+            String insertPermSQL = "INSERT INTO user_perm(user_id, perm_id) VALUES (?, ?)";
+            psPermission = conn.prepareStatement(insertPermSQL);
+            psPermission.setInt(1, userId);
+            psPermission.setInt(2, 1); 
+            psPermission.executeUpdate();
+
+            conn.commit();
+
+        } catch (SQLException e) {
+            if (conn != null) {
+                conn.rollback(); 
+            }
+            throw e;
+        } finally {
+            if (conn != null) conn.setAutoCommit(true); // Bật lại auto-commit
+            if (psUser != null) psUser.close();
+            if (psPermission != null) psPermission.close();
+            if (conn != null) conn.close();
+        }
     }
 }
