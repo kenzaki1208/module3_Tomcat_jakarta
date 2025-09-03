@@ -12,14 +12,14 @@
         <h2><a href="${pageContext.request.contextPath}/users-week13?action=create">Add New User</a></h2>
     </center>
 
-    <form style="justify-self: center" action="${pageContext.request.contextPath}/users" method="get">
+    <form style="justify-self: center" action="${pageContext.request.contextPath}/users-week13" method="get">
         <input type="hidden" name="action" value="search"/>
         <input type="text" name="country" placeholder="Enter country"/>
         <input type="submit" value="Search"/>
     </form>
 
     <h3 style="text-align: center">
-        <a href="${pageContext.request.contextPath}/users?action=sort">
+        <a href="${pageContext.request.contextPath}/users-week13?action=sort">
             Sort Users by Name
         </a>
     </h3>

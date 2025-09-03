@@ -6,6 +6,7 @@ import java.math.BigDecimal;
 import java.sql.*;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 public class UserDAO implements IUserDAO {
@@ -31,6 +32,12 @@ public class UserDAO implements IUserDAO {
             + " PRIMARY KEY (ID)"
             + ")";
     private static final String SQL_TABLE_DROP = "DROP TABLE IF EXISTS EMPLOYEE";
+
+    //Bài thực hành 1: Gọi MySql Stored Procedures từ JDBC
+    private static final String GET_ALL_USERS_SP = "{CALL get_all_users()}";
+    private static final String UPDATE_USER_SP = "{CALL update_user(?,?,?,?)}";
+    private static final String DELETE_USER_SP = "{CALL delete_user(?)}";
+    //
 
     public UserDAO() {}
 
@@ -336,5 +343,56 @@ public class UserDAO implements IUserDAO {
             System.out.println(e.getMessage());
             e.printStackTrace();
         }
+    }
+
+    //Bài thực hành 1: Gọi MySql Stored Procedures từ JDBC
+    @Override
+    public List<User> getAllUsersSP() {
+        List<User> users = new ArrayList<>();
+        try (
+                Connection connection = getConnection();
+                CallableStatement cs = connection.prepareCall(GET_ALL_USERS_SP);
+            )
+        {
+            ResultSet rs = cs.executeQuery();
+            while (rs.next()) {
+                int id = rs.getInt("id");
+                String name = rs.getString("name");
+                String email = rs.getString("email");
+                String country = rs.getString("country");
+                users.add(new User(id, name, email, country));
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return users;
+    }
+
+    @Override
+    public boolean updateUserSP(User user) throws SQLException {
+        boolean rowUpdated;
+        try (
+                Connection connection = getConnection();
+                CallableStatement cs = connection.prepareCall(UPDATE_USER_SP);
+            )
+        {
+            cs.setInt(1, user.getId());
+            cs.setString(2, user.getUsername());
+            cs.setString(3, user.getEmail());
+            cs.setString(4, user.getCountry());
+            rowUpdated = cs.executeUpdate() > 0;
+        }
+        return rowUpdated;
+    }
+
+    @Override
+    public boolean deleteUserSP(int id) throws SQLException {
+        boolean rowDeleted;
+        try (Connection connection = getConnection();
+             CallableStatement cs = connection.prepareCall(DELETE_USER_SP)) {
+            cs.setInt(1, id);
+            rowDeleted = cs.executeUpdate() > 0;
+        }
+        return rowDeleted;
     }
 }

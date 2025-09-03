@@ -16,4 +16,9 @@ public interface IUserDAO {
     void addUserTransaction(User user, List<Integer> permission);
     void insertUpdateWithoutTransaction_p1();
     void insertUpdateWithoutTransaction_p2();
+
+    //Bài thực hành 1: Gọi MySql Stored Procedures từ JDBC
+    List<User> getAllUsersSP();
+    boolean updateUserSP(User user) throws SQLException;
+    boolean deleteUserSP(int id) throws SQLException;
 }

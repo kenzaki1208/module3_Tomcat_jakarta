@@ -32,6 +32,7 @@ public class UserServletWeek13 extends HttpServlet {
             switch (action) {
                 case "create": insertUser(request, response); break;
                 case "edit": updateUser(request, response); break;
+                case "updateSP": updateUserSP(request, response); break;
             }
         } catch (SQLException ex) {
             throw new ServletException(ex);
@@ -48,6 +49,17 @@ public class UserServletWeek13 extends HttpServlet {
         userDAO.updateUser(newUser);
         RequestDispatcher dispatcher = request.getRequestDispatcher("/week13_tomcat/jdbc_and_crud/view/edit.jsp");
         dispatcher.forward(request, response);
+    }
+
+    private void updateUserSP(HttpServletRequest request, HttpServletResponse response)
+            throws SQLException, IOException {
+        int id = Integer.parseInt(request.getParameter("id"));
+        String name = request.getParameter("name");
+        String email = request.getParameter("email");
+        String country = request.getParameter("country");
+        User user = new User(id, name, email, country);
+        userDAO.updateUserSP(user);
+        response.sendRedirect("users-week13");
     }
 
     private void insertUser(HttpServletRequest request, HttpServletResponse response)
