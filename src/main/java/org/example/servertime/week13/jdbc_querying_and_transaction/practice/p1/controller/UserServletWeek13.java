@@ -85,7 +85,8 @@ public class UserServletWeek13 extends HttpServlet {
                 case "delete": deleteUser(request, response); break;
                 case "search": searchUser(request, response); break;
                 case "sort": sortUserByName(request, response); break;
-                case  "test-without-tran": testWithoutTran(request, response); break;
+                case  "test-without-tran-p1": testWithoutTran(request, response); break;
+                case  "test-without-tran-p2": testWithoutTran_p2(request, response); break;
                 default: listUser(request, response); break;
             }
         } catch (SQLException ex) {
@@ -146,6 +147,10 @@ public class UserServletWeek13 extends HttpServlet {
     }
 
     private void testWithoutTran(HttpServletRequest request, HttpServletResponse response) {
-        userDAO.insertUpdateWithoutTransaction();
+        userDAO.insertUpdateWithoutTransaction_p1();
+    }
+
+    private void testWithoutTran_p2(HttpServletRequest request, HttpServletResponse response) {
+        userDAO.insertUpdateWithoutTransaction_p2();
     }
 }
